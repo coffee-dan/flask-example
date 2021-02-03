@@ -1,0 +1,17 @@
+# generated files
+__pycache__
+*.py[cod]
+*$py.class
+
+# Flask files
+instance/
+.webassets-cache
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
