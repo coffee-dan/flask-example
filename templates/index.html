@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Home page</title>
+	</head>
+	<body>
+		<h1>Home page!</h1>
+		<p>hello {{ content }}</p>
+		<!-- somewhat native python code by using expressions -->
+		<!-- expression syntax {%  %} -->
+		{% for x in content %}
+			<!-- statement syntax {{  }} for accessing variables -->
+			<p>{{ x }}</p>
+		{% endfor %}
+	</body>
+</html>
