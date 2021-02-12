@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, session
+from flask import Flask, redirect, url_for, render_template, request, session, flash
 from datetime import timedelta
 # create instance of flask web application
 app = Flask(__name__)
@@ -19,9 +19,11 @@ def login():
 		user = request.form['nm']
 		# username stored as session data
 		session['user'] = user
+		flash('Login Succesful')
 		return redirect(url_for('user'))
 	else: 
 		if 'user' in session:
+			flash('Already Logged In')
 			return redirect(url_for('user'))
 			
 		return render_template('login.html')
@@ -32,13 +34,18 @@ def login():
 def user():
 	if 'user' in session:
 		user = session['user']
-		return f'<h1>{user}</h1>'
+		return render_template('user.html', user=user)
 	else:
+		flash('You are not logged in!')
 		return redirect(url_for('login'))
 
 # clearing session data 'user' effectively logs user out via flow of pages
 @app.route('/logout')
 def logout():
+	if 'user' in session:
+		user = session['user']
+		# notifcation type message - shows up on next page
+		flash(f'You have been logged out, {user}!', 'info')
 	session.pop('user', None)
 	return redirect(url_for('login'))
 
