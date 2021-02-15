@@ -9,5 +9,11 @@
 			{% endfor %}
 		{% endif %}
 	{% endwith %}
-	<p>Welcome, {{ user }}</p>
+	
+	<form action="#" method="POST">
+		<!-- value prop set as python expr that will only control input if there is a value in var email -->
+		<input type="email" name="email" placeholder="Enter Email" value="{{ email if email }}" />
+		<input type="submit" value="submit" />
+	</form>
+
 {% endblock %}
