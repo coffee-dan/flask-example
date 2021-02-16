@@ -13,5 +13,6 @@ PS> python "hello.py"
 ## Requirements
 
 - Most recent version of Python 3
-- `pip`
-- `Flask`
+- `pip` package manager
+- `Flask` pip package
+- `flask_sqlalchemy` pip package

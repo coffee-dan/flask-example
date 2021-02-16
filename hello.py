@@ -33,16 +33,37 @@ class users( db.Model ):
 def home():
     return render_template('index.html')
 
+# view entire database
+@app.route('/view')
+def view():
+	return render_template('view.html', values=users.query.all())
+
 # methods param used to specify which requests will be used
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+	# user provides name
 	if request.method == 'POST':
 		session.permanent = True
 		user = request.form['nm']
 		# username stored as session data
 		session['user'] = user
+
+		# query users table for column with name equal to name from form
+		found_user = users.query.filter_by(name=user).first()
+		# deletion syntax
+		# users.query.filter_by(name=user).delete()
+		if found_user:
+			session['email'] = found_user.email
+		else:
+			usr = users( user, '' )
+			# adds to "staging" area
+			db.session.add(usr)
+			# commits to database
+			db.session.commit()
+
 		flash('Login Succesful')
 		return redirect(url_for('user'))
+	# user requests login page
 	else: 
 		if 'user' in session:
 			flash('Already Logged In')
@@ -63,6 +84,12 @@ def user():
 		if request.method == 'POST':
 			email = request.form['email']
 			session['email'] = email
+
+			# query users table for column with name equal to name from form
+			found_user = users.query.filter_by(name=user).first()
+			found_user.email = email
+			db.session.commit()
+
 			flash('Email was saved!')
 		# GET - user is requesting to see their email
 		else:
